@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Quest - Adventure Worlds</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header/Nav -->
+        <header class="header">
+            <h1>⚔️ Attendance Quest ⚔️</h1>
+            <p class="subtitle">Master of the Attendance Realm</p>
+            <div class="header-info">
+                <span class="time-display" id="timeDisplay"></span>
+                <span class="daily-bonus" id="dailyBonusStatus">Daily Login Bonus: Ready!</span>
+            </div>
+        </header>
+
+        <!-- Main Navigation -->
+        <nav class="main-nav">
+            <button class="nav-btn active" data-view="dashboard">📊 Dashboard</button>
+            <button class="nav-btn" data-view="students">👥 Students</button>
+            <button class="nav-btn" data-view="inventory">🎒 Inventory</button>
+            <button class="nav-btn" data-view="leaderboard">🏆 Leaderboard</button>
+            <button class="nav-btn" data-view="quests">⚡ Quests</button>
+            <button class="nav-btn" data-view="shop">🏪 Shop</button>
+            <button class="nav-btn" data-view="settings">⚙️ Settings</button>
+        </nav>
+
+        <!-- Views Container -->
+        <main class="content">
+            <!-- Dashboard View -->
+            <section class="view active" id="dashboard-view">
+                <h2>Welcome Adventurer!</h2>
+                <div class="dashboard-grid">
+                    <div class="attendance-today">
+                        <h3>Today's Attendance</h3>
+                        <div class="student-grid" id="studentGrid"></div>
+                        <button class="btn-primary large" id="markAttendanceBtn">✓ Confirm Attendance</button>
+                    </div>
+                    <div class="daily-rewards">
+                        <h3>Daily Rewards</h3>
+                        <div id="dailyRewardsContainer"></div>
+                    </div>
+                </div>
+                <div class="class-stats">
+                    <h3>Class Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-label">Total Students</span>
+                            <span class="stat-value" id="totalStudents">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Present Today</span>
+                            <span class="stat-value" id="presentToday">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Average Level</span>
+                            <span class="stat-value" id="avgLevel">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Total Gold Earned</span>
+                            <span class="stat-value" id="totalGold">0</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Students View -->
+            <section class="view" id="students-view">
+                <h2>Manage Students</h2>
+                <div class="add-student">
+                    <input type="text" id="studentNameInput" placeholder="Enter student name">
+                    <button class="btn-primary" id="addStudentBtn">➕ Add Student</button>
+                </div>
+                <div class="students-list" id="studentsList"></div>
+            </section>
+
+            <!-- Inventory View -->
+            <section class="view" id="inventory-view">
+                <h2>Student Inventory & Progression</h2>
+                <div class="student-selector">
+                    <select id="inventoryStudentSelect">
+                        <option value="">Select a Student...</option>
+                    </select>
+                </div>
+                <div class="inventory-content" id="inventoryContent"></div>
+            </section>
+
+            <!-- Leaderboard View -->
+            <section class="view" id="leaderboard-view">
+                <h2>Class Leaderboard</h2>
+                <div class="leaderboard-tabs">
+                    <button class="tab-btn active" data-tab="exp">⭐ Experience</button>
+                    <button class="tab-btn" data-tab="streak">🔥 Streaks</button>
+                    <button class="tab-btn" data-tab="currency">💰 Gold</button>
+                    <button class="tab-btn" data-tab="attendance">📅 Attendance</button>
+                </div>
+                <div class="leaderboard-content" id="leaderboardContent"></div>
+            </section>
+
+            <!-- Quests View -->
+            <section class="view" id="quests-view">
+                <h2>Daily Quests & Challenges</h2>
+                <div class="quests-container">
+                    <div class="quests-list" id="questsList"></div>
+                    <div class="quest-details" id="questDetails">
+                        <p style="color: #e0aaff; text-align: center;">Select a quest to view details</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Shop View -->
+            <section class="view" id="shop-view">
+                <h2>Magical Equipment Shop</h2>
+                <div class="shop-header">
+                    <p>Purchase rare items and cosmetics with your hard-earned gold!</p>
+                </div>
+                <div class="shop-student-select">
+                    <select id="shopStudentSelect">
+                        <option value="">Select a Student...</option>
+                    </select>
+                    <span id="playerGold" style="color: #ffd60a; font-weight: bold;">Gold: 0</span>
+                </div>
+                <div class="shop-tabs">
+                    <button class="shop-tab active" data-shop-tab="weapons">⚔️ Weapons</button>
+                    <button class="shop-tab" data-shop-tab="armor">🛡️ Armor</button>
+                    <button class="shop-tab" data-shop-tab="skins">✨ Skins</button>
+                </div>
+                <div class="shop-grid" id="shopGrid"></div>
+            </section>
+
+            <!-- Settings View -->
+            <section class="view" id="settings-view">
+                <h2>Settings</h2>
+                <div class="settings-grid">
+                    <div class="settings-group">
+                        <h3>Rewards Configuration</h3>
+                        <label>
+                            EXP per Day Present:
+                            <input type="number" id="expPerDay" value="100" min="10">
+                        </label>
+                        <label>
+                            Gold per Day Present:
+                            <input type="number" id="goldPerDay" value="50" min="10">
+                        </label>
+                        <label>
+                            Daily Login Bonus (Gold):
+                            <input type="number" id="dailyBonusGold" value="25" min="1">
+                        </label>
+                        <button class="btn-primary" id="saveSettingsBtn">💾 Save Settings</button>
+                    </div>
+                    <div class="settings-group">
+                        <h3>Level System</h3>
+                        <label>
+                            EXP Multiplier (per level):
+                            <input type="number" id="expMultiplier" value="1.15" min="1" step="0.05">
+                        </label>
+                        <p style="color: #e0aaff; font-size: 0.9em; margin-top: 10px;">Higher multiplier = harder to level up</p>
+                    </div>
+                    <div class="settings-group danger-zone">
+                        <h3>⚠️ Danger Zone</h3>
+                        <button class="btn-danger" id="clearDataBtn">🗑️ Clear All Data</button>
+                        <button class="btn-danger" id="exportDataBtn">📥 Export Data (JSON)</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for quest details -->
+    <div class="modal" id="questModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
